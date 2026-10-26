@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История — ДНК Анализатор</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="dna-icon" viewBox="0 0 24 24" width="32" height="32">
+                    <path fill="currentColor" d="M12 2C10.5 3.5 10 6 10 8C10 10 10.5 11 12 12C13.5 11 14 10 14 8C14 6 13.5 3.5 12 2ZM12 22C13.5 20.5 14 18 14 16C14 14 13.5 13 12 12C10.5 13 10 14 10 16C10 18 10.5 20.5 12 22ZM4 6L2 4M20 6L22 4M4 18L2 20M20 18L22 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <line x1="8" y1="5" x2="16" y2="19" stroke="currentColor" stroke-width="1"/>
+                    <line x1="16" y1="5" x2="8" y2="19" stroke="currentColor" stroke-width="1"/>
+                </svg>
+                <span>ДНК Анализатор</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="analysis.html" class="nav-link">Анализ</a>
+                <a href="profile.html" class="nav-link">Профиль</a>
+                <a href="history.html" class="nav-link active">История</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title">История анализов</h1>
+
+            <div class="history-filters">
+                <input type="text" id="historySearch" placeholder="Поиск по названию...">
+                <select id="historySort">
+                    <option value="newest">Сначала новые</option>
+                    <option value="oldest">Сначала старые</option>
+                    <option value="longest">По длине (убывание)</option>
+                    <option value="shortest">По длине (возрастание)</option>
+                </select>
+                <button class="btn btn-danger" id="clearHistoryBtn">Очистить историю</button>
+            </div>
+
+            <div class="history-list" id="historyList">
+                <div class="empty-state">
+                    <p>История пуста</p>
+                    <a href="analysis.html" class="btn btn-primary">Создать первый анализ</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 ДНК Анализатор. Платформа для биологов, студентов и исследователей.</p>
+        </div>
+    </footer>
+
+    <script src="js/storage.js"></script>
+    <script src="js/history.js"></script>
+</body>
+</html>

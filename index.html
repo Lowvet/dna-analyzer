@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ДНК Анализатор — Платформа для анализа последовательностей</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="dna-icon" viewBox="0 0 24 24" width="32" height="32">
+                    <path fill="currentColor" d="M12 2C10.5 3.5 10 6 10 8C10 10 10.5 11 12 12C13.5 11 14 10 14 8C14 6 13.5 3.5 12 2ZM12 22C13.5 20.5 14 18 14 16C14 14 13.5 13 12 12C10.5 13 10 14 10 16C10 18 10.5 20.5 12 22ZM4 6L2 4M20 6L22 4M4 18L2 20M20 18L22 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <line x1="8" y1="5" x2="16" y2="19" stroke="currentColor" stroke-width="1"/>
+                    <line x1="16" y1="5" x2="8" y2="19" stroke="currentColor" stroke-width="1"/>
+                </svg>
+                <span>ДНК Анализатор</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">Главная</a>
+                <a href="analysis.html" class="nav-link">Анализ</a>
+                <a href="profile.html" class="nav-link">Профиль</a>
+                <a href="history.html" class="nav-link">История</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="hero">
+                <h1>Платформа для анализа и визуализации<br>последовательностей ДНК</h1>
+                <p class="hero-subtitle">Загрузите последовательность нуклеотидов — получите детальный анализ, визуализацию и трансляцию в аминокислоты</p>
+                <div class="hero-actions">
+                    <a href="analysis.html" class="btn btn-primary">Начать анализ</a>
+                    <a href="#features" class="btn btn-secondary">Узнать больше</a>
+                </div>
+            </section>
+
+            <section class="features" id="features">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x1F9EC;</div>
+                        <h3>Анализ состава</h3>
+                        <p>GC-содержание, процентное соотношение нуклеотидов, молекулярная масса и температура плавления</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x1F4CA;</div>
+                        <h3>Визуализация</h3>
+                        <p>Графики распределения нуклеотидов, линейная карта последовательности, интерактивные диаграммы</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x1F50D;</div>
+                        <h3>Поиск мотивов</h3>
+                        <p>Найдите паттерны, сайты рестрикции, ORF и повторяющиеся последовательности</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x1F9EA;</div>
+                        <h3>Трансляция</h3>
+                        <p>Перевод нуклеотидной последовательности в аминокислотную во всех 6 рамках чтения</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x1F4C1;</div>
+                        <h3>Поддержка FASTA</h3>
+                        <p>Загрузите файл в формате FASTA или вставьте последовательность напрямую</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#x1F4BE;</div>
+                        <h3>Профиль и история</h3>
+                        <p>Сохраняйте результаты анализов и возвращайтесь к ним в любое время</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="quick-start">
+                <h2>Быстрый старт</h2>
+                <div class="quick-start-grid">
+                    <div class="qs-card">
+                        <div class="qs-number">1</div>
+                        <h4>Загрузите данные</h4>
+                        <p>Вставьте последовательность в текстовое поле или загрузите .fasta / .txt файл</p>
+                    </div>
+                    <div class="qs-card">
+                        <div class="qs-number">2</div>
+                        <h4>Запустите анализ</h4>
+                        <p>Нажмите кнопку «Анализировать» — платформа обработает данные за секунды</p>
+                    </div>
+                    <div class="qs-card">
+                        <div class="qs-number">3</div>
+                        <h4>Изучите результаты</h4>
+                        <p>Просмотрите визуализации, сохраните результат в профиль или поделитесь</p>
+                    </div>
+                </div>
+                <a href="analysis.html" class="btn btn-primary">Перейти к анализу &rarr;</a>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 ДНК Анализатор. Платформа для биологов, студентов и исследователей.</p>
+        </div>
+    </footer>
+</body>
+</html>

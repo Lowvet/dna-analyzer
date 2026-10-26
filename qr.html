@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR-код — ДНК Анализатор</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .qr-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: center;
+            max-width: 560px;
+        }
+        .qr-image-box {
+            background: #fff;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            display: inline-block;
+            margin: 20px 0;
+        }
+        .qr-image-box img {
+            width: 300px;
+            height: 300px;
+            display: block;
+            image-rendering: pixelated;
+        }
+        .qr-wrap .form-group {
+            text-align: left;
+        }
+        .qr-note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 16px;
+            text-align: left;
+        }
+        .qr-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="dna-icon" viewBox="0 0 24 24" width="32" height="32">
+                    <path fill="currentColor" d="M12 2C10.5 3.5 10 6 10 8C10 10 10.5 11 12 12C13.5 11 14 10 14 8C14 6 13.5 3.5 12 2ZM12 22C13.5 20.5 14 18 14 16C14 14 13.5 13 12 12C10.5 13 10 14 10 16C10 18 10.5 20.5 12 22ZM4 6L2 4M20 6L22 4M4 18L2 20M20 18L22 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <line x1="8" y1="5" x2="16" y2="19" stroke="currentColor" stroke-width="1"/>
+                    <line x1="16" y1="5" x2="8" y2="19" stroke="currentColor" stroke-width="1"/>
+                </svg>
+                <span>ДНК Анализатор</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="analysis.html" class="nav-link">Анализ</a>
+                <a href="profile.html" class="nav-link">Профиль</a>
+                <a href="history.html" class="nav-link">История</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title">QR-код сайта</h1>
+
+            <div class="qr-wrap">
+                <div class="form-group">
+                    <label for="qrUrl">Ссылка, которую зашиваем в QR-код</label>
+                    <input type="text" id="qrUrl" placeholder="https://example.com">
+                    <div class="form-hint">Введите адрес сайта. Для локального файла оставьте ссылку вида file:///...</div>
+                </div>
+
+                <div class="qr-image-box">
+                    <img id="qrImage" alt="QR-код">
+                </div>
+
+                <div class="qr-actions">
+                    <button class="btn btn-primary" id="updateBtn">Обновить</button>
+                    <a class="btn btn-secondary" id="downloadBtn" download="qr.png">Скачать PNG</a>
+                    <button class="btn btn-secondary" id="printBtn">Печать</button>
+                </div>
+
+                <p class="qr-note">
+                    QR-код для локального файла (<code>file:///...</code>) откроется только на этом компьютере.
+                    Чтобы сканировать код телефоном, сайт нужно разместить в интернете и вставить его адрес в поле выше.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 ДНК Анализатор. Платформа для биологов, студентов и исследователей.</p>
+        </div>
+    </footer>
+
+    <script>
+        const input = document.getElementById('qrUrl');
+        const img = document.getElementById('qrImage');
+        const download = document.getElementById('downloadBtn');
+
+        // По умолчанию — адрес текущей страницы (если открыто по file:// и есть index.html рядом)
+        function defaultUrl() {
+            if (location.protocol === 'file:') {
+                return decodeURIComponent(location.pathname).replace(/qr\.html$/, 'index.html');
+            }
+            return location.origin + location.pathname.replace(/qr\.html$/, 'index.html');
+        }
+
+        function buildQrUrl(data) {
+            return 'https://api.qrserver.com/v1/create-qr-code/?size=600x600&margin=20&data=' + encodeURIComponent(data);
+        }
+
+        function update() {
+            const data = input.value.trim();
+            if (!data) return;
+            const url = buildQrUrl(data);
+            img.src = url;
+            download.href = url;
+        }
+
+        input.value = defaultUrl();
+        update();
+
+        document.getElementById('updateBtn').addEventListener('click', update);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') update();
+        });
+        document.getElementById('printBtn').addEventListener('click', () => window.print());
+    </script>
+</body>
+</html>

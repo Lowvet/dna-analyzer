@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ последовательности — ДНК Анализатор</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="dna-icon" viewBox="0 0 24 24" width="32" height="32">
+                    <path fill="currentColor" d="M12 2C10.5 3.5 10 6 10 8C10 10 10.5 11 12 12C13.5 11 14 10 14 8C14 6 13.5 3.5 12 2ZM12 22C13.5 20.5 14 18 14 16C14 14 13.5 13 12 12C10.5 13 10 14 10 16C10 18 10.5 20.5 12 22ZM4 6L2 4M20 6L22 4M4 18L2 20M20 18L22 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <line x1="8" y1="5" x2="16" y2="19" stroke="currentColor" stroke-width="1"/>
+                    <line x1="16" y1="5" x2="8" y2="19" stroke="currentColor" stroke-width="1"/>
+                </svg>
+                <span>ДНК Анализатор</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="analysis.html" class="nav-link active">Анализ</a>
+                <a href="profile.html" class="nav-link">Профиль</a>
+                <a href="history.html" class="nav-link">История</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title">Анализ последовательности ДНК</h1>
+
+            <!-- Ввод данных -->
+            <section class="input-section">
+                <div class="input-tabs">
+                    <button class="tab-btn active" data-tab="manual">Ввод вручную</button>
+                    <button class="tab-btn" data-tab="file">Загрузка файла</button>
+                </div>
+
+                <div class="tab-content active" id="manual">
+                    <div class="form-group">
+                        <label for="seqName">Название последовательности</label>
+                        <input type="text" id="seqName" placeholder="Например: BRCA1 экзон 1">
+                    </div>
+                    <div class="form-group">
+                        <label for="sequence">Последовательность нуклеотидов</label>
+                        <textarea id="sequence" rows="8" placeholder="Вставьте последовательность ДНК (A, T, G, C, N...) или FASTA-формат..."></textarea>
+                        <div class="form-hint">Поддерживаются форматы: обычная строка, FASTA. Допустимые символы: A, T, G, C, U, N, R, Y, K, M, S, W, B, D, H, V</div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" id="analyzeBtn">Анализировать</button>
+                        <button class="btn btn-secondary" id="clearBtn">Очистить</button>
+                        <button class="btn btn-secondary" id="sampleBtn">Загрузить пример</button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="file">
+                    <div class="form-group">
+                        <label for="seqNameFile">Название последовательности</label>
+                        <input type="text" id="seqNameFile" placeholder="Например: Митохондриальная ДНК">
+                    </div>
+                    <div class="file-upload" id="fileUpload">
+                        <input type="file" id="fileInput" accept=".fasta,.fa,.txt,.seq" hidden>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <div class="upload-icon">&#x1F4C1;</div>
+                            <p>Перетащите файл сюда или нажмите для выбора</p>
+                            <p class="upload-hint">Поддерживаемые форматы: .fasta, .fa, .txt, .seq</p>
+                        </div>
+                    </div>
+                    <div class="file-info" id="fileInfo" style="display:none;">
+                        <span id="fileName"></span>
+                        <span id="fileSize"></span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" id="analyzeFileBtn">Анализировать</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Результаты -->
+            <section class="results-section" id="resultsSection" style="display:none;">
+                <h2>Результаты анализа</h2>
+
+                <!-- Общая статистика -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statLength">0</div>
+                        <div class="stat-label">Длина (п.н.)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statGC">0%</div>
+                        <div class="stat-label">GC-содержание</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statMW">0</div>
+                        <div class="stat-label">Мол. масса (Да)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statTm">0°C</div>
+                        <div class="stat-label">Tm (плавление)</div>
+                    </div>
+                </div>
+
+                <!-- Состав нуклеотидов -->
+                <div class="result-block">
+                    <h3>Состав нуклеотидов</h3>
+                    <div class="nucleotide-bars" id="nucleotideBars"></div>
+                    <div class="chart-container">
+                        <canvas id="compositionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Линейная визуализация -->
+                <div class="result-block">
+                    <h3>Линейная карта последовательности</h3>
+                    <div class="sequence-viewer" id="sequenceViewer"></div>
+                </div>
+
+                <!-- Поиск мотивов -->
+                <div class="result-block">
+                    <h3>Поиск мотивов и паттернов</h3>
+                    <div class="motif-search">
+                        <input type="text" id="motifInput" placeholder="Введите паттерн (например: ATG, GAATTC)">
+                        <button class="btn btn-primary" id="searchMotifBtn">Найти</button>
+                    </div>
+                    <div class="motif-results" id="motifResults"></div>
+                </div>
+
+                <!-- Сайты рестрикции -->
+                <div class="result-block">
+                    <h3>Сайты рестрикции</h3>
+                    <div class="restriction-table" id="restrictionTable"></div>
+                </div>
+
+                <!-- Трансляция -->
+                <div class="result-block">
+                    <h3>Трансляция в аминокислоты</h3>
+                    <div class="translation-tabs" id="translationTabs"></div>
+                    <div class="translation-result" id="translationResult"></div>
+                </div>
+
+                <!-- Обратная комплементарная -->
+                <div class="result-block">
+                    <h3>Обратная комплементарная последовательность</h3>
+                    <div class="sequence-output" id="reverseComp"></div>
+                    <button class="btn btn-secondary" id="copyRevComp">Копировать</button>
+                </div>
+
+                <!-- Действия -->
+                <div class="result-actions">
+                    <button class="btn btn-primary" id="saveToProfile">Сохранить в профиль</button>
+                    <button class="btn btn-secondary" id="exportFasta">Экспорт FASTA</button>
+                    <button class="btn btn-secondary" id="exportReport">Скачать отчёт</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 ДНК Анализатор. Платформа для биологов, студентов и исследователей.</p>
+        </div>
+    </footer>
+
+    <script src="js/analyzer.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
